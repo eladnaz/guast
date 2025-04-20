@@ -1,0 +1,22 @@
+{
+  "plugins": ["nuxt"],
+  "extends": ["@nuxt", "plugin:prettier/recommended", "prettier"],
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "rules": {
+    "vue/html-self-closing": [
+      "error",
+      {
+        "html": {
+          "void": "any",
+          "normal": "always",
+          "component": "always"
+        },
+        "svg": "always",
+        "math": "always"
+      }
+    ]
+  }
+}
