@@ -17,6 +17,7 @@ export class ArmorWithName {
   weaponType: number;
   decoSlot: number;
   name: string;
+  skillsDisplayString: string;
   skills: ItemSkillWithName[];
   constructor(
     armor: Armor,
@@ -40,5 +41,8 @@ export class ArmorWithName {
       const testVar = skillNames.find((n) => n.skillId === s.skillId);
       return new ItemSkillWithName(s, testVar);
     });
+    this.skillsDisplayString = this.skills
+      .map((s) => `${s.skillName}+${s.pointValue}`)
+      .join(" ");
   }
 }

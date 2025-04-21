@@ -1,8 +1,5 @@
-<script setup>
-import { Sun, Moon } from "lucide-vue-next";
-import ToggleSwitch from "primevue/toggleswitch";
-</script>
-<script>
+<script setup lang="ts">
+import ToggleSwitch from '~/src/volt/ToggleSwitch.vue';
 const initializeTheme = () => {
   const savedPreference = localStorage.getItem("darkModePreference");
 
@@ -24,13 +21,15 @@ const initializeTheme = () => {
 };
 const toggleTheme = (value) => {
   localStorage.setItem("darkModePreference", value ? "dark" : "light");
-  isDark.value = value;
   if (value) {
     document.documentElement.classList.add("dark");
   } else {
     document.documentElement.classList.remove("dark");
   }
 };
+const toggleIcon = computed(() => {
+    return `!text-xs pi ${ isDark.value ? "pi-moon" : "pi-sun"  }`
+})
 const isDark = ref(initializeTheme());
 </script>
 <template>
@@ -41,12 +40,12 @@ const isDark = ref(initializeTheme());
         <div class="flex items-center justify-center">
           <ToggleSwitch
             v-model:model-value="isDark"
+            
             @update:model-value="toggleTheme"
           >
-            <template #handle>
-              <Moon v-if="isDark" />
-              <Sun v-else />
-            </template>
+          <template #handle>
+              <i :class="toggleIcon"></i>
+          </template>
           </ToggleSwitch>
           <label v-if="isDark" class="p-1">Dark Mode</label>
           <label v-else class="p-1">Light Mode</label>

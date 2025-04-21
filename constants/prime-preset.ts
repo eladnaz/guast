@@ -1,6 +1,5 @@
-import "@primeuix/styles";
-import { definePreset } from "@primeuix/themes";
-import Aura from "@primeuix/themes/aura";
+import { definePreset } from "@primevue/themes";
+import Aura from "@primevue/themes/aura";
 export const MyPreset = definePreset(Aura, {
   semantic: {
     primary: {

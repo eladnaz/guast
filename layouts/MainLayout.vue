@@ -1,7 +1,7 @@
 <script setup>
 //import { ref } from "vue";
 import EquipmentCard from "~/components/EquipmentCard.vue";
-import ArmorTable from "~/components/tables/ArmorTable.vue";
+import ArmorTable from "~/components/tables/armor-table/ArmorTable.vue";
 import GuastHeader from "~/components/GuastHeader.vue";
 import iconArmorArms from "../assets/icons/icon_armor_arms.png";
 import iconArmorBody from "../assets/icons/icon_armor_body.png";
@@ -46,13 +46,13 @@ import iconTalisman from "../assets/icons/icon_talisman.png";
         <ArmorTable></ArmorTable>
       </section>
       <section class="flex w-full justify-between flex-row pt-4">
-        <EquipmentCard :icon-string="iconSwordAndShield" />
-        <EquipmentCard :icon-string="iconArmorHead" />
-        <EquipmentCard :icon-string="iconArmorBody" />
-        <EquipmentCard :icon-string="iconArmorArms" />
-        <EquipmentCard :icon-string="iconArmorWaist" />
-        <EquipmentCard :icon-string="iconArmorLegs" />
-        <EquipmentCard :icon-string="iconTalisman" />
+        <EquipmentCard :icon-string="iconSwordAndShield" part-name="Weapon" class="flex-1" />
+        <EquipmentCard :icon-string="iconArmorHead" part-name="Head" class="flex-1" />
+        <EquipmentCard :icon-string="iconArmorBody" part-name="Body" class="flex-1" />
+        <EquipmentCard :icon-string="iconArmorArms" part-name="Arms" class="flex-1" />
+        <EquipmentCard :icon-string="iconArmorWaist" part-name="Waist" class="flex-1" />
+        <EquipmentCard :icon-string="iconArmorLegs" part-name="Legs" class="flex-1" />
+        <EquipmentCard :icon-string="iconTalisman" part-name="Talisman" class="flex-1" />
       </section>
       <section>
         <TestLorem></TestLorem>

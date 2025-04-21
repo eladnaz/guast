@@ -1,15 +1,30 @@
 <!-- eslint-disable vue/html-self-closing -->
 <script setup>
 import { FilterMatchMode } from "@primevue/core/api";
-import { Search } from "lucide-vue-next";
+import DataTable from '~/src/volt/DataTable.vue';
+import Button from '~/src/volt/Button.vue';
+import Column from 'primevue/column';
+import ElementText from "~/components/tables/armor-table/ElementText.vue";
 import iconElementThunder from "../assets/icons/element_thunder.png";
 import iconElementFire from "../assets/icons/element_fire.png";
 import iconElementIce from "../assets/icons/element_ice.png";
 import iconElementDragon from "../assets/icons/element_dragon.png";
 import iconElementWater from "../assets/icons/element_water.png";
+import iconArmorArms from "../assets/icons/icon_armor_arms.png";
+import iconArmorBody from "../assets/icons/icon_armor_body.png";
+import iconArmorHead from "../assets/icons/icon_armor_head.png";
+import iconArmorLegs from "../assets/icons/icon_armor_legs.png";
+import iconArmorWaist from "../assets/icons/icon_armor_waist.png";
 import { WeaponType } from "~/constants/mappings";
 const { fetchArmor } = useDatabase();
 const armor = ref([]);
+const iconMap = {
+        'Head': iconArmorHead,
+        'Body': iconArmorBody,
+        'Arms': iconArmorArms,
+        'Waist': iconArmorWaist,
+        'Legs': iconArmorLegs,
+      };
 try {
   armor.value = await fetchArmor();
 } catch (e) {
@@ -29,15 +44,14 @@ const filters = ref({
       :value="armor"
       size="small"
       striped-rows
-      scroll-height="600px"
       class="text-center w-full"
-      :global-filter-fields="['name']"
+      :global-filter-fields="['name','skillsDisplayString']"
     >
       <template #header>
         <div class="flex justify-end">
           <IconField>
             <InputIcon class="flex justify-center items-center">
-              <Search />
+              <i class="pi pi-search" ></i>
             </InputIcon>
             <InputText
               v-model="filters['global'].value"
@@ -49,12 +63,18 @@ const filters = ref({
       </template>
       <Column field="name" header="Name" />
       <Column
-        field="armorSlot"
+        field="armor"
         header="Part"
         :pt="{
           columnHeaderContent: 'flex justify-center text-center',
         }"
-      />
+      >
+      <template #body="slotProps">
+        <div class="flex justify-center items-center">
+          <img :src="iconMap[slotProps.data.armorSlot]" class="max-w-4 xl:max-w-6" alt="Part Icon" />
+        </div>
+      </template>
+    </Column>
       <Column
         field="armor"
         header="Defense"
@@ -76,71 +96,12 @@ const filters = ref({
         }"
       >
         <template #body="slotProps">
-          <div class="flex justify-center">
-            <div class="flex items-center pr-1">
-              <img
-                :src="iconElementThunder"
-                alt="Thunder"
-                width="16"
-                height="16"
-                style="margin-right: 4px"
-              />
-              <span class="thunder-element-text">
-                {{ slotProps.data.thunderRes }}
-              </span>
-            </div>
-
-            <div class="flex items-center pr-1">
-              <img
-                :src="iconElementFire"
-                alt="Fire"
-                width="16"
-                height="16"
-                style="margin-right: 4px"
-              />
-              <span class="fire-element-text">
-                {{ slotProps.data.fireRes }}
-              </span>
-            </div>
-
-            <div class="flex items-center pr-1">
-              <img
-                :src="iconElementWater"
-                alt="Water"
-                width="16"
-                height="16"
-                style="margin-right: 4px"
-              />
-              <span class="water-element-text">
-                {{ slotProps.data.waterRes }}
-              </span>
-            </div>
-
-            <div class="flex items-center pr-1">
-              <img
-                :src="iconElementDragon"
-                alt="Dragon"
-                width="16"
-                height="16"
-                style="margin-right: 4px"
-              />
-              <span class="dragon-element-text">
-                {{ slotProps.data.dragonRes }}
-              </span>
-            </div>
-
-            <div class="flex items-center pr-1">
-              <img
-                :src="iconElementIce"
-                alt="Ice"
-                width="16"
-                height="16"
-                style="margin-right: 4px"
-              />
-              <span class="ice-element-text">
-                {{ slotProps.data.iceRes }}
-              </span>
-            </div>
+          <div class="flex flex-row justify-center items-center">
+            <ElementText :icon-string="iconElementDragon" alt-text="Dragon Element" :res-value="slotProps.data.dragonRes" text-color-class="dragon-element-text"></ElementText>
+            <ElementText :icon-string="iconElementFire" alt-text="Fire Element" :res-value="slotProps.data.fireRes" text-color-class="fire-element-text"></ElementText>
+            <ElementText :icon-string="iconElementIce" alt-text="Ice Element" :res-value="slotProps.data.iceRes" text-color-class="ice-element-text"></ElementText>
+            <ElementText :icon-string="iconElementThunder" alt-text="Thunder Element" :res-value="slotProps.data.thunderRes" text-color-class="thunder-element-text"></ElementText>
+            <ElementText :icon-string="iconElementWater" alt-text="Water Element" :res-value="slotProps.data.waterRes" text-color-class="water-element-text"></ElementText>
           </div>
         </template>
       </Column>
@@ -162,27 +123,20 @@ const filters = ref({
           <span>{{ WeaponType[slotProps.data.weaponType] }}</span>
         </template>
       </Column>
-      <Column field="armor" header="Skills">
-        <template #body="slotProps">
-          <span
-            v-for="skill in slotProps.data.skills"
-            :key="skill.id"
-            class="mr-1 p-1"
-          >
-            {{ skill.skillName }} +{{ skill.pointValue }}
-          </span>
+      <Column field="skillsDisplayString" header="Skills">
+      </Column>
+      <Column>
+        <template #body>
+          <Button icon="pi pi-plus"></Button>
         </template>
       </Column>
     </DataTable>
   </Suspense>
 </template>
 <style>
-/* .p-datatable-tbody
+.p-datatable-tbody
   > tr
-  > td:not(:first-child):not(:last-child):not(:nth-last-child(2)) {
-  text-align: center;
-} */
-.p-datatable-tbody > tr > td:not(:first-child):not(:last-child) {
+  > td:not(:first-child):not(:nth-last-child(2)) {
   text-align: center;
 }
 </style>
