@@ -44,7 +44,7 @@ const isDark = ref(initializeTheme());
             @update:model-value="toggleTheme"
           >
           <template #handle>
-              <i :class="toggleIcon"></i>
+              <i :class="toggleIcon"/>
           </template>
           </ToggleSwitch>
           <label v-if="isDark" class="p-1">Dark Mode</label>

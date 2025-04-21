@@ -2,11 +2,11 @@
     <ToggleSwitch
         unstyled
         :pt="theme"
-        :ptOptions="{
+        :pt-options="{
             mergeProps: ptViewMerge
         }"
     >
-        <template v-for="(_, slotName) in $slots" v-slot:[slotName]="slotProps">
+        <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
             <slot :name="slotName" v-bind="slotProps ?? {}" />
         </template>
     </ToggleSwitch>
@@ -17,6 +17,7 @@ import ToggleSwitch, { type ToggleSwitchPassThroughOptions, type ToggleSwitchPro
 import { ref } from 'vue';
 import { ptViewMerge } from './utils';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Props extends /* @vue-ignore */ ToggleSwitchProps {}
 defineProps<Props>();
 

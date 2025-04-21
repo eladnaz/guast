@@ -1,8 +1,9 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <Select
         unstyled
         :pt="theme"
-        :ptOptions="{
+        :pt-options="{
             mergeProps: ptViewMerge
         }"
     >
@@ -18,7 +19,7 @@
         <template #clearicon="{ clearCallback }">
             <TimesIcon class="text-surface-400 absolute top-1/2 -mt-2 end-10" @click="clearCallback" />
         </template>
-        <template v-for="(_, slotName) in $slots" v-slot:[slotName]="slotProps">
+        <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
             <slot :name="slotName" v-bind="slotProps ?? {}" />
         </template>
     </Select>
@@ -33,6 +34,7 @@ import Select, { type SelectPassThroughOptions, type SelectProps } from 'primevu
 import { ref } from 'vue';
 import { ptViewMerge } from './utils';
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 interface Props extends /* @vue-ignore */ SelectProps {}
 defineProps<Props>();
 

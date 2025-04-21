@@ -14,7 +14,7 @@ const props = defineProps<{
         width="16"
         height="16"
         class="mr-1"
-        />
+        >
         <span :class="props.textColorClass">
         {{ props.resValue }}
         </span>
