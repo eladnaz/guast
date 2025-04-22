@@ -2,6 +2,7 @@
 // import EquipmentCard from "~/components/EquipmentCard.vue";
 import ArmorTable from "~/components/tables/armor-table/ArmorTable.vue";
 import GuastHeader from "~/components/header/GuastHeader.vue";
+import ArmorTableSkeleton from "~/components/tables/armor-table/ArmorTableSkeleton.vue";
 // import iconArmorArms from "../assets/icons/icon_armor_arms.png";
 // import iconArmorBody from "../assets/icons/icon_armor_body.png";
 // import iconArmorHead from "../assets/icons/icon_armor_head.png";
@@ -17,9 +18,13 @@ import GuastHeader from "~/components/header/GuastHeader.vue";
       <GuastHeader />
     </header>
     <main class="flex flex-col justify-center items-start p-5">
-       <section class="flex w-full">
-        <ArmorTable/>
-      </section>
+      <Suspense>
+        <section class="flex w-full">
+          <ArmorTable/>
+        </section>
+      </Suspense>
+       
+      <ArmorTableSkeleton/>
       <!-- <section class="flex w-full justify-between flex-row pt-4">
         <EquipmentCard :icon-string="iconSwordAndShield" part-name="Weapon" class="flex-1" />
         <EquipmentCard :icon-string="iconArmorHead" part-name="Head" class="flex-1" />

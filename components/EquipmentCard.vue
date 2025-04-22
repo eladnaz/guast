@@ -21,9 +21,9 @@ const cardContent = computed(() => {
     >
     <div class="p-1">{{ cardContent }}</div>
     <div class="flex flex-col">
-      <DecoDropdown >
+      <!-- <DecoDropdown />
       <DecoDropdown />
-      <DecoDropdown />
-    </decodropdown></div>
+      <DecoDropdown /> -->
+    </div>
   </div>
 </template>
