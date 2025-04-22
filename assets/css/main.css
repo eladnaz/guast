@@ -1,35 +1,10 @@
 @import "tailwindcss";
-@import "tailwindcss-primeui";
-@import 'primeicons/primeicons.css';
-@custom-variant dark (&:where(.dark, .dark *));
-
-/* :root {
-  --p-toggleswitch-checked-background: #cbd5e1;
-  --p-toggleswitch-checked-hover-background: #94a3b8;
-  --p-button-primary-color : var(--p-primary-contrast-color);
-  --p-button-primary-background: var(--p-primary-color);
-  --p-button-primary-border-color : var(--p-primary-color);
-  --p-button-primary-hover-color : var(--p-primary-contrast-color);
-  --p-button-primary-hover-background : var(--p-primary-hover-color);
-  --p-button-primary-hover-border-color : var(--p-primary-hover-color);
-} */
-
-body {
-  overflow-x: hidden;
+@plugin "daisyui"{
+  themes: nord --default, dark --prefersdark
 }
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
-  --color-soho-50: rgb(250, 250, 250);
-  --color-soho-100: rgb(244, 244, 245);
-  --color-soho-200: rgb(228, 228, 231);
-  --color-soho-300: rgb(212, 212, 216);
-  --color-soho-400: rgb(161, 161, 170);
-  --color-soho-500: rgb(113, 113, 122);
-  --color-soho-600: rgb(82, 82, 91);
-  --color-soho-700: rgb(63, 63, 70);
-  --color-soho-800: rgb(39, 39, 42);
-  --color-soho-900: rgb(24, 24, 27);
-  --color-soho-950: rgb(9, 9, 11);
   --color-water: #1e90ff;
   --color-fire: #ff4500;
   --color-dragon: #8a2be2;
@@ -40,14 +15,6 @@ body {
   --color-dragon-light: #451671;
   --color-thunder-light: #806c00;
   --color-ice-light: #576c73;
-}
-
-.primary-soho {
-  @apply bg-soho-100 text-soho-900 dark:bg-soho-900 dark:text-soho-100;
-}
-
-.secondary-soho {
-  @apply bg-soho-200 text-soho-800 dark:bg-soho-800 dark:text-soho-200;
 }
 
 .water-element-text {
@@ -69,61 +36,3 @@ body {
 .thunder-element-text {
   @apply text-thunder-light dark:text-thunder;
 }
-
-
-/* Primary and Surface Palettes */
-:root {
-  --p-surface-0: #ffffff;
-  --p-surface-50: #ececec;
-  --p-surface-100: #dedfdf;
-  --p-surface-200: #c4c4c6;
-  --p-surface-300: #adaeb0;
-  --p-surface-400: #97979b;
-  --p-surface-500: #7f8084;
-  --p-surface-600: #6a6b70;
-  --p-surface-700: #55565b;
-  --p-surface-800: #3f4046;
-  --p-surface-900: #2c2c34;
-  --p-surface-950: #16161d;
-  --p-primary-0: #ffffff;
-  --p-primary-50: #ececec;
-  --p-primary-100: #dedfdf;
-  --p-primary-200: #c4c4c6;
-  --p-primary-300: #adaeb0;
-  --p-primary-400: #97979b;
-  --p-primary-500: #7f8084;
-  --p-primary-600: #6a6b70;
-  --p-primary-700: #55565b;
-  --p-primary-800: #3f4046;
-  --p-primary-900: #2c2c34;
-  --p-primary-950: #16161d;
-  --p-content-border-radius: 6px;
-}
-
-:root {
-    --p-primary-color: var(--p-primary-950);
-    --p-primary-contrast-color: #fff;
-    --p-primary-hover-color: var(--p-primary-800);
-    --p-primary-active-color: var(--p-primary-700);
-    --p-highlight-background: var(--p-surface-950);
-    --p-highlight-color: #fff;
-    --p-highlight-focus-background: var(--p-surface-700);
-    --p-highlight-focus-color: #fff;
-}
-
-:root[class="dark"]{
-  --p-primary-color: var(--p-primary-50);
-  --p-primary-contrast-color: var(--p-surface-950);
-  --p-primary-hover-color: var(--p-primary-200);
-  --p-primary-active-color: var(--p-primary-300);
-  --p-highlight-background: var(--p-surface-50);
-  --p-highlight-color: var(--p-surface-950);
-  --p-highlight-focus-background: var(--p-surface-300);
-  --p-highlight-focus-color: var(--p-surface-950);
-  --p-content-hover-background: var(--p-surface-800);
-  --p-content-hover-color: var(--p-surface-0);
-  --p-text-color: var(--p-surface-0);
-  --p-text-hover-color: var(--p-surface-0);
-  --p-text-muted-color: var(--p-surface-400);
-  --p-text-hover-muted-color: var(--p-surface-300);
- }

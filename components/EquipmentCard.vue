@@ -1,6 +1,5 @@
 <!-- eslint-disable vue/html-self-closing -->
 <script setup lang="ts">
-import DecoDropdown from "./DecoDropdown.vue";
 const props = defineProps<{
   iconString: string;
   armorName?: string;
@@ -22,9 +21,9 @@ const cardContent = computed(() => {
     >
     <div class="p-1">{{ cardContent }}</div>
     <div class="flex flex-col">
+      <DecoDropdown >
       <DecoDropdown />
       <DecoDropdown />
-      <DecoDropdown />
-    </div>
+    </decodropdown></div>
   </div>
 </template>

@@ -12,29 +12,23 @@
   },
   "dependencies": {
     "@antfu/eslint-config": "^4.12.0",
-    "@nuxtjs/color-mode": "^3.5.2",
     "@nuxtjs/eslint-module": "^4.1.0",
-    "@tailwindcss/postcss": "^4.1.4",
+    "@pinia/nuxt": "^0.11.0",
     "@tailwindcss/vite": "^4.1.4",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
+    "daisyui": "^5.0.27",
     "eslint": "^9.25.1",
     "eslint-plugin-nuxt": "^4.0.0",
     "nuxt": "^3.16.2",
-    "postcss": "^8.5.3",
-    "primeicons": "^7.0.0",
-    "primevue": "^4.3.3",
+    "nuxt-lucide-icons": "^1.0.5",
+    "pinia": "^3.0.2",
     "sqlite": "^5.1.1",
     "sqlite3": "^5.1.7",
-    "tailwind-merge": "^3.2.0",
     "tailwindcss": "^4.1.4",
-    "tailwindcss-primeui": "^0.6.1",
     "typescript": "^5.8.3",
     "vue": "^3.5.13",
     "vue-router": "^4.5.0"
   },
   "devDependencies": {
-    "@nuxt/eslint": "^1.3.0",
-    "@nuxtjs/tailwindcss": "^6.13.2"
+    "@nuxt/eslint": "^1.3.0"
   }
 }
