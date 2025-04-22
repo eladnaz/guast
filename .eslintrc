@@ -1,11 +1,18 @@
 {
-  "plugins": ["nuxt"],
-  "extends": ["@nuxt"],
+  "plugins": [
+    "nuxt"
+  ],
+  "extends": [
+    "@nuxt"
+  ],
   "env": {
     "browser": true,
     "node": true
   },
   "rules": {
-     "@typescript-eslint/no-explicit-any": "off"
+    "indent": [
+      "error",
+      "tab"
+    ]
   }
 }

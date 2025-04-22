@@ -17,7 +17,7 @@ const selectedDeco = ref(null);
         placeholder="Decoration"
         class="w-[100%]"
         :virtual-scroller-options="{ itemSize: 20 }"
-      /></div
+      /></div>
   ></Suspense>
 </template>
 <style>

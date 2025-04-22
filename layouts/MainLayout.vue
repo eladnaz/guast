@@ -18,13 +18,17 @@ import ArmorTableSkeleton from "~/components/tables/armor-table/ArmorTableSkelet
       <GuastHeader />
     </header>
     <main class="flex flex-col justify-center items-start p-5">
-      <Suspense>
+      
         <section class="flex w-full">
-          <ArmorTable/>
+          <Suspense>
+            <template #default>
+              <ArmorTable/>
+            </template>
+            <template #fallback>
+              <ArmorTableSkeleton/>
+            </template>
+          </Suspense>
         </section>
-      </Suspense>
-       
-      <ArmorTableSkeleton/>
       <!-- <section class="flex w-full justify-between flex-row pt-4">
         <EquipmentCard :icon-string="iconSwordAndShield" part-name="Weapon" class="flex-1" />
         <EquipmentCard :icon-string="iconArmorHead" part-name="Head" class="flex-1" />
