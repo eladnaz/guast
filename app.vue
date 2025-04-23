@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { NuxtLayout } from "#components";
+import { NuxtLayout } from "#components"
 </script>
 
 <template>
-  <div>
-    <NuxtRouteAnnouncer />
-    <NuxtLayout name="main-layout" />
-  </div>
+	<div>
+		<NuxtRouteAnnouncer />
+		<NuxtLayout name="main-layout" />
+	</div>
 </template>
