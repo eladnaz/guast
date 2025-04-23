@@ -1,115 +1,102 @@
 import type { ArmorWithName } from "~/models/view/armor-with-name.model"
+// stores/loadout.ts
+import { defineStore } from "pinia"
+import { ref } from "vue"
 
-export const useLoadoutStore = defineStore("loadout", {
-	state: () => ({
-		helm: null as ArmorWithName | null,
-		body: null as ArmorWithName | null,
-		arm: null as ArmorWithName | null,
-		waist: null as ArmorWithName | null,
-		leg: null as ArmorWithName | null,
-		weapon: null as ArmorWithName | null,
-	}),
+export const useLoadoutStore = defineStore("loadout", () => {
+	// State
+	const helm = ref<ArmorWithName | null>(null)
+	const body = ref<ArmorWithName | null>(null)
+	const arm = ref<ArmorWithName | null>(null)
+	const waist = ref<ArmorWithName | null>(null)
+	const leg = ref<ArmorWithName | null>(null)
+	const weapon = ref<ArmorWithName | null>(null)
 
-	actions: {
-		setArmor(armor: ArmorWithName) {
-			if (armor.armorSlot === "Helm")
-				this.helm = armor
-			if (armor.armorSlot === "Body")
-				this.body = armor
-			if (armor.armorSlot === "Arm")
-				this.arm = armor
-			if (armor.armorSlot === "Waist")
-				this.waist = armor
-			if (armor.armorSlot === "Leg")
-				this.leg = armor
-		},
-		clearHelm() {
-			this.helm = null
-		},
-		clearBody() {
-			this.body = null
-		},
-		clearArm() {
-			this.arm = null
-		},
-		clearWaist() {
-			this.waist = null
-		},
-		clearLeg() {
-			this.leg = null
-		},
-		clearWeapon() {
-			this.weapon = null
-		},
+	// Actions
+	function getArmorBySlot(part: string) {
+		if (part === "Helm")
+			return helm
+		if (part === "Body")
+			return body
+		if (part === "Arm")
+			return arm
+		if (part === "Waist")
+			return waist
+		if (part === "Leg")
+			return leg
+		return null
+	}
 
-		isNotCompatible(id: number, type: number) {
-			return [
-				this.helm,
-				this.body,
-				this.arm,
-				this.waist,
-				this.leg,
-			].find(a => a != null && (a.armorId === id || (a.weaponType !== type && a.weaponType !== 3))) !== undefined
-		},
+	function setArmor(armor: ArmorWithName) {
+		if (armor.armorSlot === "Helm")
+			helm.value = armor
+		if (armor.armorSlot === "Body")
+			body.value = armor
+		if (armor.armorSlot === "Arm")
+			arm.value = armor
+		if (armor.armorSlot === "Waist")
+			waist.value = armor
+		if (armor.armorSlot === "Leg")
+			leg.value = armor
+	}
 
-		//   setLoadout(loadout: Partial<{
-		//     helm: ArmorWithName | null;
-		//     body: ArmorWithName | null;
-		//     arm: ArmorWithName | null;
-		//     waist: ArmorWithName | null;
-		//     leg: ArmorWithName | null;
-		//     weapon: ArmorWithName | null;
-		//   }>) {
-		//     Object.assign(this, loadout);
-		//   },
+	function clearHelm() {
+		helm.value = null
+	}
+	function clearBody() {
+		body.value = null
+	}
+	function clearArm() {
+		arm.value = null
+	}
+	function clearWaist() {
+		waist.value = null
+	}
+	function clearLeg() {
+		leg.value = null
+	}
+	function clearWeapon() {
+		weapon.value = null
+	}
 
-		// Clear all equipment
-		clearLoadout() {
-			this.helm = null
-			this.body = null
-			this.arm = null
-			this.waist = null
-			this.leg = null
-			this.weapon = null
-		},
-	},
-	getters: {
-		getHelm(): ArmorWithName | null {
-			return this.helm
-		},
-		getBody(): ArmorWithName | null {
-			return this.body
-		},
-		getArm(): ArmorWithName | null {
-			return this.arm
-		},
-		getWaist(): ArmorWithName | null {
-			return this.waist
-		},
-		getLeg(): ArmorWithName | null {
-			return this.leg
-		},
-		getWeapon(): ArmorWithName | null {
-			return this.weapon
-		},
-		getLoadout() {
-			return {
-				helm: this.getHelm(),
-				body: this.getBody(),
-				arm: this.getArm(),
-				waist: this.getWaist(),
-				leg: this.getLeg(),
-			}
-		},
-		getAllEquipped(): ArmorWithName[] {
-			return [
-				this.helm,
-				this.body,
-				this.arm,
-				this.waist,
-				this.leg,
-				this.weapon,
-			].filter((item): item is ArmorWithName => item !== null)
-		},
-	},
+	function isNotCompatible(id: number, type: number) {
+		return [
+			helm.value,
+			body.value,
+			arm.value,
+			waist.value,
+			leg.value,
+		].find(a => a != null && (a.armorId === id || (a.weaponType !== type && a.weaponType !== 3))) !== undefined
+	}
+
+	function clearLoadout() {
+		helm.value = null
+		body.value = null
+		arm.value = null
+		waist.value = null
+		leg.value = null
+		weapon.value = null
+	}
+
+	return {
+		// State
+		helm,
+		body,
+		arm,
+		waist,
+		leg,
+		weapon,
+
+		// Actions
+		getArmorBySlot,
+		setArmor,
+		clearHelm,
+		clearBody,
+		clearArm,
+		clearWaist,
+		clearLeg,
+		clearWeapon,
+		isNotCompatible,
+		clearLoadout,
+	}
 })

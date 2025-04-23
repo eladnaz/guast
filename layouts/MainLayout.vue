@@ -1,15 +1,8 @@
 <script setup>
 import GuastHeader from "~/components/header/GuastHeader.vue"
-// import EquipmentCard from "~/components/EquipmentCard.vue";
-import ArmorTable from "~/components/tables/armor-table/ArmorTable.vue"
-import ArmorTableSkeleton from "~/components/tables/armor-table/ArmorTableSkeleton.vue"
-// import iconArmorArms from "../assets/icons/icon_armor_arms.png";
-// import iconArmorBody from "../assets/icons/icon_armor_body.png";
-// import iconArmorHead from "../assets/icons/icon_armor_head.png";
-// import iconArmorLegs from "../assets/icons/icon_armor_legs.png";
-// import iconArmorWaist from "../assets/icons/icon_armor_waist.png";
-// import iconSwordAndShield from "../assets/icons/icon_sword_and_shield.png";
-// import iconTalisman from "../assets/icons/icon_talisman.png";
+import LoadoutContainer from "~/components/loadout/LoadoutContainer.vue"
+import ArmorTable from "~/components/tables/armor/ArmorTable.vue"
+import ArmorTableSkeleton from "~/components/tables/armor/ArmorTableSkeleton.vue"
 </script>
 
 <template>
@@ -28,18 +21,10 @@ import ArmorTableSkeleton from "~/components/tables/armor-table/ArmorTableSkelet
 					</template>
 				</Suspense>
 			</section>
-			<!-- <section class="flex w-full justify-between flex-row pt-4">
-        <EquipmentCard :icon-string="iconSwordAndShield" part-name="Weapon" class="flex-1" />
-        <EquipmentCard :icon-string="iconArmorHead" part-name="Head" class="flex-1" />
-        <EquipmentCard :icon-string="iconArmorBody" part-name="Body" class="flex-1" />
-        <EquipmentCard :icon-string="iconArmorArms" part-name="Arms" class="flex-1" />
-        <EquipmentCard :icon-string="iconArmorWaist" part-name="Waist" class="flex-1" />
-        <EquipmentCard :icon-string="iconArmorLegs" part-name="Legs" class="flex-1" />
-        <EquipmentCard :icon-string="iconTalisman" part-name="Talisman" class="flex-1" />
-      </section>
-      <section>
-        <TestLorem/>
-      </section> -->
+			<section>
+				<LoadoutContainer />
+			</section>
+			<section class="flex w-full h-100 justify-center items-center" />
 		</main>
 	</div>
 </template>

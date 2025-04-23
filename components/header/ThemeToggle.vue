@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { Moon, Sun } from "lucide-vue-next"
-
 const isDark = ref(initializeTheme())
 function initializeTheme() {
 	const savedPreference = localStorage.getItem("darkModePreference")
@@ -44,8 +42,8 @@ const toggleText = computed(() => {
 	<div class="flex justify-center items-stretch">
 		<label class="toggle toggle-lg text-base-content">
 			<input type="checkbox" :checked="isDark" @click="toggleTheme">
-			<Sun class="size-5" />
-			<Moon class="size-5" />
+			<LucideSun class="size-5 swap-off" />
+			<LucideMoon class="size-5 swap-on" />
 		</label>
 		<span class="ps-2">{{ toggleText }} Mode</span>
 	</div>

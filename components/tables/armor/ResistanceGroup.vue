@@ -5,7 +5,7 @@ import iconElementFire from "~/assets/icons/element_fire.png"
 import iconElementIce from "~/assets/icons/element_ice.png"
 import iconElementThunder from "~/assets/icons/element_thunder.png"
 import iconElementWater from "~/assets/icons/element_water.png"
-import ResistanceIconText from "~/components/tables/armor-table/ResistanceIconText.vue"
+import ResistanceIconText from "./ResistanceIconText.vue"
 
 const props = defineProps<{
 	armor: ArmorWithName

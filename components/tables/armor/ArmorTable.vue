@@ -1,7 +1,4 @@
-<!-- eslint-disable vue/html-self-closing -->
 <script setup>
-import { CircleX, ClipboardPlus, Search } from "lucide-vue-next"
-import ResistanceGroup from "~/components/tables/armor-table/ResistanceGroup.vue"
 import { WeaponType } from "~/constants/mappings"
 import { useLoadoutStore } from "~/stores/loadout.store"
 import iconArmorArms from "../assets/icons/icon_armor_arms.png"
@@ -9,6 +6,7 @@ import iconArmorBody from "../assets/icons/icon_armor_body.png"
 import iconArmorHead from "../assets/icons/icon_armor_head.png"
 import iconArmorLegs from "../assets/icons/icon_armor_legs.png"
 import iconArmorWaist from "../assets/icons/icon_armor_waist.png"
+import ResistanceGroup from "./ResistanceGroup.vue"
 
 const { fetchArmor } = useDatabase()
 const loadout = useLoadoutStore()
@@ -46,7 +44,7 @@ function removeTerm(term) {
 function clearAllTerms() {
 	searchTerms.value = []
 }
-function add(armor) {
+function addArmorToStore(armor) {
 	loadout.setArmor(armor)
 }
 // Pagination Stuff
@@ -103,14 +101,14 @@ watch(searchTerms, () => {
 					</legend>
 					<div class="tooltip tooltip-bottom z-2" data-tip="Press [Enter] to add a filter tag.">
 						<label class="input">
-							<Search class="size-4" />
+							<LucideSearch class="size-4" />
 							<input type="search" placeholder="Search" @keyup.enter="addTerm($event)">
 						</label>
 					</div>
 				</fieldset>
 				<div v-for="term in searchTerms" :key="term" class="badge badge-success mb-1 ml-1 cursor-pointer dark:badge-outline" @click="removeTerm(term)">
 					{{ term }}
-					<CircleX class="size-4" />
+					<LucideCircleX class="size-4" />
 				</div>
 			</div>
 			<div class="mb-1">
@@ -161,8 +159,8 @@ watch(searchTerms, () => {
 						</td>
 						<td>{{ a.skillsDisplayString }}</td>
 						<td class="flex-justify-content">
-							<button class="btn btn-square btn-outline btn-sm dark:bg-neutral hover:bg-neutral/50" @click="add(a)">
-								<ClipboardPlus class="size-4" />
+							<button class="btn btn-square btn-outline btn-sm dark:bg-neutral hover:bg-neutral/50" @click="addArmorToStore(a)">
+								<LucideClipboardPlus class="size-4" />
 							</button>
 						</td>
 					</tr>
@@ -174,9 +172,9 @@ watch(searchTerms, () => {
 					<button class="join-item btn bg-base-100" @click="previousPage">
 						«
 					</button>
-					<button class="join-item btn cursor-default bg-base-100">
+					<span class="join-item btn cursor-default bg-base-100 click">
 						Page {{ totalPages === 0 ? 0 : currentPage }} of  {{ totalPages }}
-					</button>
+					</span>
 					<button class="join-item btn bg-base-100" @click="nextPage">
 						»
 					</button>
