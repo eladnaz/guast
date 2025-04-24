@@ -18,31 +18,31 @@ const props = defineProps<{
 			:icon-string="iconElementDragon"
 			alt-text="Dragon Element"
 			:res-value="props.armor.dragonRes"
-			text-color-class="dragon-element-text"
+			text-color-class="text-dragon-guast"
 		/>
 		<ResistanceIconText
 			:icon-string="iconElementFire"
 			alt-text="Fire Element"
 			:res-value="props.armor.fireRes"
-			text-color-class="fire-element-text"
+			text-color-class="text-fire-guast"
 		/>
 		<ResistanceIconText
 			:icon-string="iconElementIce"
 			alt-text="Ice Element"
 			:res-value="props.armor.iceRes"
-			text-color-class="ice-element-text"
+			text-color-class="text-ice-guast"
 		/>
 		<ResistanceIconText
 			:icon-string="iconElementThunder"
 			alt-text="Thunder Element"
 			:res-value="props.armor.thunderRes"
-			text-color-class="thunder-element-text"
+			text-color-class="text-thunder-guast"
 		/>
 		<ResistanceIconText
 			:icon-string="iconElementWater"
 			alt-text="Water Element"
 			:res-value="props.armor.waterRes"
-			text-color-class="water-element-text"
+			text-color-class="text-water-guast"
 		/>
 	</div>
 </template>

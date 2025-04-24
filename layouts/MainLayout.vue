@@ -21,7 +21,7 @@ import ArmorTableSkeleton from "~/components/tables/armor/ArmorTableSkeleton.vue
 					</template>
 				</Suspense>
 			</section>
-			<section>
+			<section class="flex w-full">
 				<LoadoutContainer />
 			</section>
 			<section class="flex w-full h-100 justify-center items-center" />

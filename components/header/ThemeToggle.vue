@@ -7,7 +7,7 @@ function initializeTheme() {
 		return true
 	}
 	else if (savedPreference === "light") {
-		document.documentElement.setAttribute("data-theme", "nord")
+		document.documentElement.setAttribute("data-theme", "garden")
 		return false
 	}
 	else {
@@ -18,7 +18,7 @@ function initializeTheme() {
 			document.documentElement.setAttribute("data-theme", "dark")
 		}
 		else {
-			document.documentElement.setAttribute("data-theme", "nord")
+			document.documentElement.setAttribute("data-theme", "garden")
 		}
 		return systemPrefersDark
 	}
@@ -30,7 +30,7 @@ function toggleTheme() {
 		document.documentElement.setAttribute("data-theme", "dark")
 	}
 	else {
-		document.documentElement.setAttribute("data-theme", "nord")
+		document.documentElement.setAttribute("data-theme", "garden")
 	}
 }
 const toggleText = computed(() => {
@@ -40,7 +40,7 @@ const toggleText = computed(() => {
 
 <template>
 	<div class="flex justify-center items-stretch">
-		<label class="toggle toggle-lg text-base-content">
+		<label class="toggle toggle-lg text-accent dark:text-info">
 			<input type="checkbox" :checked="isDark" @click="toggleTheme">
 			<LucideSun class="size-5 swap-off" />
 			<LucideMoon class="size-5 swap-on" />

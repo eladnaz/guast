@@ -1,7 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui"{
-  themes: nord --default, dark --prefersdark
+  themes: garden --default, dark --prefersdark
 }
+
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
 
 @theme {
@@ -17,22 +18,27 @@
   --color-ice-light: #576c73;
 }
 
-.water-element-text {
+.text-water-guast {
   @apply text-water-light dark:text-water;
 }
 
-.fire-element-text {
+.text-fire-guast {
   @apply text-fire-light dark:text-fire;
 }
 
-.dragon-element-text {
+.text-dragon-guast {
   @apply text-dragon-light dark:text-dragon;
 }
 
-.ice-element-text {
+.text-ice-guast {
   @apply text-ice-light dark:text-ice;
 }
 
-.thunder-element-text {
+.text-thunder-guast {
   @apply text-thunder-light dark:text-thunder;
 }
+
+.tag-guast{
+  @apply dark:bg-transparent dark:text-(--badge-color);
+}
+

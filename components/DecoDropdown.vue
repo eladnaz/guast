@@ -1,70 +1,50 @@
-<script setup>
-const selectedValue = ref("")
-// const dropdownClass = computed(() => {
-// 	const baseCss = "select cursor-pointer"
-// 	return !hasValue.value ? baseCss : `${baseCss} pr-12`"
-// })
-function clearValue() {
-	selectedValue.value = ""
+<script setup lang="ts">
+import { useDatabase } from "~/composables/useDatabase"
+
+const selectedDeco = ref("")
+function closeDropdown(deco: string) {
+	selectedDeco.value = deco
+	// @ts-expect-error .blur() is a valid javascript command for document.activeElement
+	document.activeElement.blur()
 }
-const dropdown = useTemplateRef("dropdownRef")
-const dropdownOpen = ref(false)
-const isSelected = computed(() => {
-	return selectedValue.value && selectedValue.value.length
-})
+const searchTerm = ref("")
 const displayDeco = computed(() => {
-	return selectedValue.value && selectedValue.value.length ? selectedValue.value : "Select a decoration"
+	return selectedDeco.value && selectedDeco.value.length ? selectedDeco.value : "Select a decoration"
 })
-function setValue(value) {
-	selectedValue.value = value
-}
-function testToggle() {
-	dropdownOpen.value = !dropdownOpen.value
-	if (dropdownOpen.value === true) {
-		dropdown.value.toggleAttribute("open", true)
+const decos = ref(await useDatabase().fetchDecorations())
+const filteredDecos = computed(() => {
+	if (searchTerm.value && searchTerm.value.length) {
+		return decos.value.filter(d => d.name.toLowerCase().includes(searchTerm.value.trim().toLowerCase()))
 	}
-}
-// Close other dropdowns
-function handleClickOutside() {
-	if (dropdownOpen.value === true && dropdown.value.attributes.getNamedItem("open") !== null) {
-		dropdown.value.toggleAttribute("open", false)
+	else {
+		return decos.value
 	}
-	else if (dropdownOpen.value === false && dropdown.value.attributes.getNamedItem("open") === null) {
-		dropdown.value.toggleAttribute("open", true)
-	}
-}
-document.addEventListener("click", handleClickOutside)
-onBeforeUnmount(() => {
-	document.removeEventListener("click", handleClickOutside)
 })
-// const { fetchDecorations } = useDatabase()
-// const decos = await fetchDecorations()
-// const selectedDeco = ref(null)
+function clearSearch() {
+	searchTerm.value = ""
+}
 </script>
 
 <template>
-	<div class="pt-1 flex items-center w-[100%]">
-		<div class="w-[85%]">
-			<details ref="dropdownRef" class="dropdown cursor-pointer" @click="testToggle">
-				<summary class="btn select select-sm select-warning pl-2">
-					<span class="truncate max-w-21 2xl:max-w-32">{{ displayDeco }}</span>
-				</summary>
-				<div class="menu dropdown-content">
-					<label class="input input-neutral focus-within:outline-0 focus:outline-0">
-						<LucideSearch />
-						<input type="search" placeholder="Search" @click.stop>
-					</label>
-					<ul class="rounded-box z-1 shadow-sm">
-						<li><a @click="setValue('Test Decoration')">Item 1</a></li>
-						<li><a @click="setValue('Test Decoration2')">Item 2</a></li>
-					</ul>
-				</div>
-			</details>
+	<div class="dropdown">
+		<div tabindex="0" class="btn m-1 select select-sm dark:select-info cursor-pointer h-8 w-full text-left">
+			{{ displayDeco }}
 		</div>
-		<div class="w-[15%] h-full flex justify-center items-center pt-1">
-			<button v-if="isSelected" class="btn btn-circle btn-error dark:btn-outline size-4 flex items-center" @click="clearValue()">
-				<LucideX />
-			</button>
+		<div tabindex="0" class="dropdown-content menu bg-base-300 border-1 dark:border-info rounded-box z-1 w-[20vw] p-2 shadow-sm">
+			<label class="input input-md input-info">
+				<LucideSearch />
+				<input v-model="searchTerm" placeholder="Search">
+				<LucideX class="cursor-pointer" @click="clearSearch()" />
+			</label>
+			<ul class="overflow-y-scroll h-48 m-1">
+				<li v-for="deco in filteredDecos" :key="deco.decoId" class="hover:bg-info hover:text-info-content cursor-pointer p-2" @click="closeDropdown(deco.name)">
+					{{ deco.name }}
+				</li>
+			</ul>
 		</div>
 	</div>
 </template>
+
+<style>
+
+</style>

@@ -1,6 +1,6 @@
 <script setup>
 import { WeaponType } from "~/constants/mappings"
-import { useLoadoutStore } from "~/stores/loadout.store"
+import { useLoadoutStore } from "~/stores/loadoutStore"
 import iconArmorArms from "../assets/icons/icon_armor_arms.png"
 import iconArmorBody from "../assets/icons/icon_armor_body.png"
 import iconArmorHead from "../assets/icons/icon_armor_head.png"
@@ -34,7 +34,7 @@ const filteredArmorList = computed(() => {
 })
 function addTerm(event) {
 	const term = event.target.value
-	if (term.trim() && !searchTerms.value.some(s => s.toLowerCase() === term.trim().toLowerCase()))
+	if (searchTerms.value.length < 5 && term.trim() && !searchTerms.value.some(s => s.toLowerCase() === term.trim().toLowerCase()))
 		searchTerms.value.push(term)
 	event.target.value = ""
 }
@@ -100,26 +100,31 @@ watch(searchTerms, () => {
 						Filter by Name/Skill
 					</legend>
 					<div class="tooltip tooltip-bottom z-2" data-tip="Press [Enter] to add a filter tag.">
-						<label class="input">
+						<label class="input input-accent dark:input-info">
 							<LucideSearch class="size-4" />
 							<input type="search" placeholder="Search" @keyup.enter="addTerm($event)">
 						</label>
 					</div>
 				</fieldset>
-				<div v-for="term in searchTerms" :key="term" class="badge badge-success mb-1 ml-1 cursor-pointer dark:badge-outline" @click="removeTerm(term)">
-					{{ term }}
-					<LucideCircleX class="size-4" />
+				<div class="flex flex-row justify-start pl-1">
+					<div v-for="term in searchTerms" :key="term" class="badge badge-accent dark:badge-info tag-guast m-1 cursor-pointer " @click="removeTerm(term)">
+						{{ term }}
+						<LucideCircleX class="size-4" />
+					</div>
+					<div v-if="searchTerms.valueOf().length === 5" class="badge badge-error tag-guast m-1 cursor-pointer">
+						MAX FILTER TAGS REACHED
+					</div>
 				</div>
 			</div>
 			<div class="mb-1">
-				<button class="btn btn-warning dark:btn-outline" @click="clearAllTerms">
+				<button class="btn btn-accent dark:btn-info dark:btn-outline" @click="clearAllTerms">
 					Clear Filter Tags
 				</button>
 			</div>
 		</div>
-		<div class="rounded-box border-3 border-base-content/10 bg-base-200 w-full">
+		<div class="bg-base-200">
 			<table class="table table-pin-rows table-sm 2xl:table-md">
-				<thead>
+				<thead class="border-1 border-accent/50 dark:border-info/50">
 					<tr>
 						<th class="text-center">
 							Type
@@ -138,7 +143,7 @@ watch(searchTerms, () => {
 						<th />
 					</tr>
 				</thead>
-				<tbody>
+				<tbody class="border-1 border-accent/50 dark:border-info/50">
 					<tr v-for="a in pagedArmorList" :key="a.armorId" class="hover:bg-base-300">
 						<td class="text-center">
 							{{ WeaponType[a.weaponType] }}
@@ -159,23 +164,23 @@ watch(searchTerms, () => {
 						</td>
 						<td>{{ a.skillsDisplayString }}</td>
 						<td class="flex-justify-content">
-							<button class="btn btn-square btn-outline btn-sm dark:bg-neutral hover:bg-neutral/50" @click="addArmorToStore(a)">
+							<button class="btn btn-sm  btn-square btn-accent dark:btn-outline dark:btn-info" @click="addArmorToStore(a)">
 								<LucideClipboardPlus class="size-4" />
 							</button>
 						</td>
 					</tr>
 				</tbody>
 			</table>
-			<div class="w-full flex flex-row bg-base-100">
+			<div class="w-full flex flex-row bg-base-100 border-1 border-accent/50 dark:border-info/50 p-1">
 				<div class="flex-1" />
 				<div class="join flex-1 flex justify-center">
-					<button class="join-item btn bg-base-100" @click="previousPage">
+					<button class="join-item btn btn-accent dark:btn-info dark:btn-outline dark:border-info/50" @click="previousPage">
 						«
 					</button>
-					<span class="join-item btn cursor-default bg-base-100 click">
+					<span class="join-item btn btn-accent cursor-default hover:bg-transparent dark:hover:text-info hover:shadow-none border-1 border-black/50 dark:btn-info dark:btn-outline dark:border-info/50">
 						Page {{ totalPages === 0 ? 0 : currentPage }} of  {{ totalPages }}
 					</span>
-					<button class="join-item btn bg-base-100" @click="nextPage">
+					<button class="join-item btn btn-accent  dark:btn-info dark:btn-outline dark:border-info/50" @click="nextPage">
 						»
 					</button>
 				</div>

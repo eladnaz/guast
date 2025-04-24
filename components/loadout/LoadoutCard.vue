@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useLoadoutStore } from "~/stores/loadout.store"
+import { useLoadoutStore } from "~/stores/loadoutStore"
 import DecoDropdown from "../DecoDropdown.vue"
 
 const props = defineProps<{
@@ -7,11 +7,14 @@ const props = defineProps<{
 	armorName?: string
 	partName: string
 }>()
+const items = ref([
+])
 const loadout = useLoadoutStore()
 const armor = loadout.getArmorBySlot(props.partName)
 const cardContent = computed(() => {
 	return armor?.value?.name ?? props.partName
 })
+const selectedItem = ref(null)
 // const decoSlots = computed(() => {
 // 	return armor?.value?.decoSlot ?? 0;
 // })
@@ -19,11 +22,11 @@ const cardContent = computed(() => {
 
 <template>
 	<div
-		class="flex flex-col justify-center items-center size-[100vw/6]"
+		class="flex flex-col justify-center items-center flex-1"
 	>
 		<img
 			:src="props.iconString"
-			class="xl:max-w-10 2xl:max-w-12"
+			class="size-8 2xl:size-12"
 			alt="Part Icon"
 		>
 		<div class="p-1">

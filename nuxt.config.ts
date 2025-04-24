@@ -5,7 +5,9 @@ export default defineNuxtConfig({
 	components: {
 		dirs: [],
 	},
-	devtools: { enabled: true },
+	devtools: {
+		enabled: true,
+	},
 	css: ["~/assets/css/main.css"],
 	modules: [
 		"@nuxt/eslint",
