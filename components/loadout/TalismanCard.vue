@@ -4,7 +4,7 @@ import iconTalisman from "../assets/icons/icon_talisman.png"
 
 <template>
 	<div
-		class="flex flex-col justify-center items-center flex-1"
+		class="flex flex-col justify-center items-center"
 	>
 		<img
 			:src="iconTalisman"
@@ -14,6 +14,6 @@ import iconTalisman from "../assets/icons/icon_talisman.png"
 		<div class="p-1">
 			Talisman
 		</div>
-		<div class="flex flex-col w-full pl-2 pr-2" />
+		<div class="flex flex-col w-full pr-2 pl-2" />
 	</div>
 </template>

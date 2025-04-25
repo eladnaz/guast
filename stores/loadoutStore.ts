@@ -2,6 +2,7 @@ import type { ArmorWithName } from "~/models/view/armor-with-name.model"
 // stores/loadout.ts
 import { defineStore } from "pinia"
 import { ref } from "vue"
+import { ArmorType } from "~/constants/mappings"
 
 export const useLoadoutStore = defineStore("loadout", () => {
 	// State
@@ -14,29 +15,29 @@ export const useLoadoutStore = defineStore("loadout", () => {
 
 	// Actions
 	function getArmorBySlot(part: string) {
-		if (part === "Helm")
+		if (part === ArmorType.Head)
 			return helm
-		if (part === "Body")
+		if (part === ArmorType.Body)
 			return body
-		if (part === "Arm")
+		if (part === ArmorType.Arms)
 			return arm
-		if (part === "Waist")
+		if (part === ArmorType.Waist)
 			return waist
-		if (part === "Leg")
+		if (part === ArmorType.Legs)
 			return leg
 		return null
 	}
 
 	function setArmor(armor: ArmorWithName) {
-		if (armor.armorSlot === "Helm")
+		if (armor.armorSlot === ArmorType.Head)
 			helm.value = armor
-		if (armor.armorSlot === "Body")
+		if (armor.armorSlot === ArmorType.Body)
 			body.value = armor
-		if (armor.armorSlot === "Arm")
+		if (armor.armorSlot === ArmorType.Arms)
 			arm.value = armor
-		if (armor.armorSlot === "Waist")
+		if (armor.armorSlot === ArmorType.Waist)
 			waist.value = armor
-		if (armor.armorSlot === "Leg")
+		if (armor.armorSlot === ArmorType.Legs)
 			leg.value = armor
 	}
 

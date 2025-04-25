@@ -3,3 +3,11 @@ export const WeaponType = {
 	1: "Gunner",
 	2: "All",
 }
+
+export const ArmorType = {
+	Head: "Head",
+	Body: "Body",
+	Arms: "Arms",
+	Waist: "Waist",
+	Legs: "Legs",
+}
