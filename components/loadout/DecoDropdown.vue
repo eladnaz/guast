@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { DecoWithName } from "~/models/view/deco-with-name.model"
 import { useDatabase } from "~/composables/useDatabase"
+import { DecoWithName } from "~/models/view/deco-with-name.model"
 
 const props = defineProps({
 	maxSlotSize: {
@@ -11,24 +11,25 @@ const props = defineProps({
 		type: Boolean,
 		required: true,
 	},
-	modelValue: null,
+	partName: {
+		type: String,
+		required: true,
+	},
+	modelValue: DecoWithName,
 })
 const emit = defineEmits(["update:modelValue"])
-
-const selectedDeco = ref<DecoWithName | null>(null)
 function selectDeco(deco: DecoWithName) {
-	selectedDeco.value = deco
 	emit("update:modelValue", deco)
 	// @ts-expect-error .blur() is a valid javascript command for document.activeElement
 	document.activeElement.blur()
 }
 const searchTerm = ref("")
 const displayDeco = computed(() => {
-	return selectedDeco.value && selectedDeco.value.name.length ? selectedDeco.value.name : "Select a decoration"
+	return props.modelValue && props.modelValue.name.length ? props.modelValue.name : "Select a decoration"
 })
 const decos = ref(await useDatabase().fetchDecorations())
 const filteredDecos = computed(() => {
-	const size = props.maxSlotSize + (!selectedDeco.value ? 0 : selectedDeco.value.slotsNeeded)
+	const size = props.maxSlotSize + (!props.modelValue ? 0 : props.modelValue.slotsNeeded)
 	if (size === 0) {
 		return []
 	}
@@ -44,8 +45,7 @@ function clearSearch() {
 	searchTerm.value = ""
 }
 function clearDecoSlot() {
-	if (selectedDeco.value) {
-		selectedDeco.value = null
+	if (props.modelValue) {
 		emit("update:modelValue", null)
 	}
 }
@@ -53,11 +53,11 @@ function clearDecoSlot() {
 
 <template>
 	<div class="flex flex-row w-full">
-		<div class="w-3/4 dropdown" :class="{ 'opacity-50 pointer-events-none': props.disabled }">
+		<div class="w-4/5 dropdown" :class="{ 'opacity-50 pointer-events-none': props.disabled }">
 			<div tabindex="0" class="w-full h-8 m-1 text-left truncate cursor-pointer select-sm dark:select-info btn select">
 				{{ displayDeco }}
 			</div>
-			<div tabindex="0" class="z-1 w-[25vw] p-2 bg-base-300 shadow-sm border-1 dark:border-info rounded-box dropdown-content menu">
+			<div tabindex="0" class="z-1 w-[15vw] p-2 bg-base-300 shadow-sm border-1 dark:border-info rounded-box dropdown-content menu">
 				<label class="w-full input input-md input-info">
 					<LucideSearch />
 					<input v-model="searchTerm" placeholder="Search">
@@ -71,12 +71,12 @@ function clearDecoSlot() {
 			</div>
 		</div>
 
-		<div class="flex justify-center items-center w-1/4">
+		<div class="flex justify-end items-center w-1/5">
 			<LucideX
 				class="size-6 p-1 opacity-50 cursor-default btn"
 				:class="{
 					'btn-disabled': !modelValue,
-					'opacity-100 btn-info hover:btn-error cursor-pointer': modelValue,
+					'opacity-100 btn-error btn-outline cursor-pointer': modelValue,
 				}" @click="clearDecoSlot()"
 			/>
 		</div>

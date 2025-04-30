@@ -21,19 +21,29 @@ const availableDecoSlots = computed(() => {
 const cardContent = computed(() => {
 	return armor?.value?.name ?? props.partName
 })
-function clearDecoSlot(index: number) {
-	if (!decosSelected[index])
-		decosSelected[index] = null
+
+function openModal(partName: string) {
+	loadout.openModal(partName)
+}
+
+function clearArmor() {
+	loadout.clearArmor(armor.value)
+	decosSelected.value = [null, null, null]
 }
 </script>
 
 <template>
-	<div class="flex flex-col w-full m-2 px-2 py-6 bg-base-200 rounded-sm">
+	<div class="flex flex-col w-full m-2 p-2 bg-base-200 rounded-sm">
+		<div class="flex justify-end w-full">
+			<button class="btn-outline btn btn-sm btn-error" :disabled="armor === null" @click="clearArmor">
+				<LucideX />
+			</button>
+		</div>
 		<div class="flex justify-center w-full p-1">
 			<span>{{ cardContent }}</span>
 		</div>
 		<div class="flex flex-row w-full">
-			<div class="flex flex-col justify-center items-center w-1/4 border-1 border-info rounded-sm">
+			<div class="flex flex-col justify-center items-center w-1/4 h-full rounded-sm btn-outline cursor-pointer btn btn-accent dark:btn-info" @click="openModal(props.partName)">
 				<img
 					:src="props.iconString"
 					class="size-8 2xl:size-12"
@@ -42,7 +52,7 @@ function clearDecoSlot(index: number) {
 			</div>
 			<div class="flex flex-col w-3/4 pr-2 pl-2">
 				<div v-for="index in 3" :key="index" class="flex w-full">
-					<DecoDropdown v-model="decosSelected[index]" :disabled="availableDecoSlots.valueOf() <= 0 && !decosSelected[index]" :max-slot-size="availableDecoSlots.valueOf()" />
+					<DecoDropdown v-model="decosSelected[index]" :disabled="availableDecoSlots <= 0 && !decosSelected[index]" :part-name="partName" :max-slot-size="availableDecoSlots" />
 				</div>
 			</div>
 		</div>

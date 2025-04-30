@@ -11,7 +11,7 @@ import TalismanCard from "./TalismanCard.vue"
 </script>
 
 <template>
-	<div class="flex flex-row w-full mt-4">
+	<div class="flex flex-row w-full">
 		<div class="flex flex-col flex-5 justify-between items-center mr-1 p-2 bg-base-300 rounded-md">
 			<div class="flex w-full">
 				<LoadoutCard :icon-string="iconArmorHead" :part-name="ArmorType.Head" />

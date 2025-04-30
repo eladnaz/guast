@@ -42,3 +42,10 @@
   @apply dark:bg-transparent dark:text-(--badge-color);
 }
 
+/* Overriding DaisyUI cursor for closing outside modal */
+.modal-backdrop {
+  button {
+      cursor: default;
+  }
+}
+

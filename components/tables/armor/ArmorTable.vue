@@ -1,4 +1,6 @@
-<script setup>
+<script setup lang="ts">
+import type { ArmorWithName } from "~/models/view/armor-with-name.model"
+import ToggleButtonWithIcon from "~/components/ToggleButtonWithIcon.vue"
 import { ArmorType, WeaponType } from "~/constants/mappings"
 import { useLoadoutStore } from "~/stores/loadoutStore"
 import iconArmorArms from "../assets/icons/icon_armor_arms.png"
@@ -9,6 +11,7 @@ import iconArmorWaist from "../assets/icons/icon_armor_waist.png"
 import ResistanceGroup from "./ResistanceGroup.vue"
 
 const { fetchArmor } = useDatabase()
+
 const loadout = useLoadoutStore()
 const iconMap = {
 	Head: iconArmorHead,
@@ -18,38 +21,70 @@ const iconMap = {
 	Legs: iconArmorLegs,
 }
 // Master Load
-const searchTerms = ref([])
+const searchTerms = ref<string[]>([])
+const allowBlademaster = ref<boolean>(true)
+const allowGunner = ref<boolean>(true)
 const masterArmorList = ref(await fetchArmor())
+const loadoutCompat = ref(loadout.getLoadoutCompatibility())
+const { helm, body, arm, waist, leg } = storeToRefs(loadout)
+const { partToFilter } = storeToRefs(loadout)
 // Filtering
 const filteredArmorList = computed(() => {
 	return masterArmorList.value.filter((item) => {
-		const compat = loadout.isNotCompatible(item.armorId, item.weaponType)
+		if (partToFilter.value !== "All" && item.armorSlot !== partToFilter.value) {
+			return false
+		}
 		const matchesSearch = (!searchTerms.value || !searchTerms.value.length) || searchTerms.value.every(t =>
 			item.name.toLowerCase().includes(t.toLowerCase())
 			|| item.skillsDisplayString.toLowerCase().includes(t.toLowerCase()),
 		)
-
-		return !compat && matchesSearch
+		const inLoadout = loadoutCompat.value.selectedIds && loadoutCompat.value.selectedIds.length ? loadoutCompat.value.selectedIds.includes(item.armorId) : false
+		const loadoutTypeCompatible = loadoutCompat.value.compatType && loadoutCompat.value.compatType.length ? loadoutCompat.value.compatType.includes(item.weaponType) : true
+		return !inLoadout && loadoutTypeCompatible && matchesSearch && armorTypeToggleActive(item, allowBlademaster.value, allowGunner.value)
 	})
 })
-function addTerm(event) {
+
+function armorTypeToggleActive(
+	armor: ArmorWithName,
+	blademasterAllowed: boolean,
+	gunnerAllowed: boolean,
+): boolean {
+	if (armor.weaponType === 0 && blademasterAllowed) {
+		return true
+	}
+	else if (armor.weaponType === 1 && gunnerAllowed) {
+		return true
+	}
+	else if (armor.weaponType === 2) {
+		return true
+	}
+	else {
+		return false
+	}
+}
+
+function addTerm(event: any) {
 	const term = event.target.value
-	if (searchTerms.value.length < 5 && term.trim() && !searchTerms.value.some(s => s.toLowerCase() === term.trim().toLowerCase()))
-		searchTerms.value.push(term)
+	if (searchTerms.value.length < 5 && term.trim()
+		&& !searchTerms.value.some(s => s.toLowerCase() === term.trim().toLowerCase())) {
+		// Replace array instead of pushing
+		searchTerms.value = [...searchTerms.value, term]
+	}
 	event.target.value = ""
 }
-function removeTerm(term) {
+function removeTerm(term: string) {
 	searchTerms.value = searchTerms.value.filter(t => t !== term)
 }
 function clearAllTerms() {
 	searchTerms.value = []
 }
-function addArmorToStore(armor) {
+function addArmorToStore(armor: ArmorWithName) {
 	loadout.setArmor(armor)
+	loadout.closeModal()
 }
 // Pagination Stuff
 const currentPage = ref(1)
-const itemsPerPage = ref(10)
+const itemsPerPage = ref(5)
 const pagedArmorList = computed(() => {
 	const start = (currentPage.value - 1) * itemsPerPage.value
 	const end = start + itemsPerPage.value
@@ -72,8 +107,9 @@ function nextPage() {
 			currentPage.value++
 		}
 	}
-	catch (error) {
-		console.error(error.message)
+	catch (error: unknown) {
+		if (error instanceof Error)
+			console.error(error.message)
 	}
 }
 function previousPage() {
@@ -86,15 +122,18 @@ function previousPage() {
 //     currentPage.value = page;
 //   }
 // }
-watch(searchTerms, () => {
+watch([searchTerms, allowBlademaster, allowGunner], () => {
 	currentPage.value = 1
+})
+watch([helm, body, arm, waist, leg], () => {
+	loadoutCompat.value = loadout.getLoadoutCompatibility()
 })
 </script>
 
 <template>
 	<div class="flex flex-col w-full">
 		<div class="flex items-end w-full">
-			<div class="flex flex-row flex-9 items-end">
+			<div class="flex flex-row flex-9 items-end mb-1">
 				<fieldset class="fieldset">
 					<legend class="fieldset-legend">
 						Filter by Name/Skill
@@ -111,19 +150,31 @@ watch(searchTerms, () => {
 						<span class="group-hover:invisible visible">{{ term }}</span>
 						<LucideCircleX class="hidden group-hover:block absolute size-4" />
 					</div>
-					<div v-if="searchTerms.valueOf().length === 5" class="m-1 cursor-pointer badge badge-error tag-guast">
+					<div v-if="searchTerms.length === 5" class="m-1 cursor-pointer badge badge-error tag-guast">
 						MAX FILTER TAGS REACHED
 					</div>
 				</div>
 			</div>
-			<div class="mb-1">
+			<div class="mr-2 mb-2">
+				<p v-if="loadoutCompat.compatType.length > 0" class="text-red-500 dark:text-red-400">
+					Loadout has gear selected
+				</p>
+				<p v-if="loadoutCompat.compatType.length > 0" class="text-red-500 dark:text-red-400">
+					preventing weapon type filter
+				</p>
+				<div>
+					<ToggleButtonWithIcon v-model="allowBlademaster" :disabled="loadoutCompat.compatType.length > 0" active-class="btn btn-accent dark:btn-info" inactive-class="btn btn-accent dark:btn-outline dark:btn-info" label="Blademaster" class="mr-1" />
+					<ToggleButtonWithIcon v-model="allowGunner" :disabled="loadoutCompat.compatType.length > 0" active-class="btn btn-accent dark:btn-info" inactive-class="btn btn-accent dark:btn-outline dark:btn-info" label="Gunner" class="ml-1" />
+				</div>
+			</div>
+			<div class="mb-2">
 				<button class="dark:btn-outline btn btn-accent hover:btn-error dark:btn-info" @click="clearAllTerms">
 					Clear Filter Tags
 				</button>
 			</div>
 		</div>
 		<div class="bg-base-200">
-			<table class="table table-pin-rows table-sm 2xl:table-md">
+			<table class="table table-sm 2xl:table-md">
 				<thead class="border-1 border-accent/50 dark:border-info/50">
 					<tr>
 						<th class="text-center">
@@ -143,15 +194,14 @@ watch(searchTerms, () => {
 						<th class="text-center">
 							Deco Slot
 						</th>
-						<th />
 					</tr>
 				</thead>
 				<tbody class="border-1 border-accent/50 dark:border-info/50">
-					<tr v-for="a in pagedArmorList" :key="a.armorId" class="hover:bg-base-300">
+					<tr v-for="a in pagedArmorList" :key="a.armorId" class="hover:bg-base-300 hover:cursor-pointer" @click="addArmorToStore(a)">
 						<td class="text-center">
 							{{ WeaponType[a.weaponType] }}
 						</td>
-						<td>
+						<td class="flex justify-center items-center h-12 2xl:h-16">
 							<img
 								:src="iconMap[a.armorSlot]"
 								class="max-w-4 xl:max-w-6"
@@ -168,11 +218,6 @@ watch(searchTerms, () => {
 						<td>{{ a.skillsDisplayString }}</td>
 						<td class="text-center">
 							{{ a.decoSlot }}
-						</td>
-						<td class="flex justify-content">
-							<button class="dark:btn-outline btn btn-sm btn-square btn-accent dark:btn-info" @click="addArmorToStore(a)">
-								<LucideBetweenVerticalStart class="size-4" />
-							</button>
 						</td>
 					</tr>
 				</tbody>

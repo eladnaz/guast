@@ -10,4 +10,5 @@ export const ArmorType = {
 	Arms: "Arms",
 	Waist: "Waist",
 	Legs: "Legs",
+	All: "All",
 }
